@@ -17,8 +17,8 @@ import { signIn } from "next-auth/react"
 import { useState } from "react"
 import * as yup from "yup"
 
+import { OTPLink } from "../OTP"
 import { SignupContainer } from "./signup.styled"
-import { SignUPOTP } from "./SignupOTP"
 const getIcon = (title: string) => {
   switch (title) {
     case "google":
@@ -179,7 +179,20 @@ export function Signup(props: ISignupProps) {
               </Button>
             </div>
           ) : (
-            <SignUPOTP email={values.email} />
+            <OTPLink
+              title={
+                <p>
+                  <strong>An email has been sent to </strong> {values.email}
+                </p>
+              }
+              subTitle={
+                <p>
+                  <strong>
+                    Click on the Link to verify or Enter the OTP sent to you
+                  </strong>
+                </p>
+              }
+            />
           )}
         </div>
         {/* {Object.values(providers).map((provider: any) => (
