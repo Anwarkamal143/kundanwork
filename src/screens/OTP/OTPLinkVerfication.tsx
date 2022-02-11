@@ -1,50 +1,20 @@
-import { Button, Input, Slicklider } from "@Components"
-import {
-  AppleIcon,
-  Edit,
-  EnvelopIcon,
-  Eye,
-  FacebookIcon,
-  GoogleIcon,
-  LinkedInIcon,
-  Spinner,
-} from "@Icons"
-import { AuthLayout } from "@Layouts"
-import { AuthServices } from "@Utils/enums"
+import { Spinner } from "@Icons"
 import { useFormik } from "formik"
-import Link from "next/link"
-import { signIn } from "next-auth/react"
-import { useState } from "react"
+import { ReactChild, ReactChildren, ReactElement, ReactNode } from "react"
 import styled from "styled-components"
 
-import { SignupContainer } from "./signup.styled"
-const getIcon = (title: string) => {
-  switch (title) {
-    case "google":
-      return <GoogleIcon />
-    case "linkedin":
-      return <LinkedInIcon />
-    case "apple":
-      return <AppleIcon />
-
-    case "facebook":
-      return <FacebookIcon />
-    default:
-      break
-  }
-}
 type ISignupProps = {
-  email: string
   className?: string
+  title?: ReactChild | ReactChildren | ReactNode | ReactElement | HTMLElement
+  subTitle?: ReactChild | ReactChildren | ReactNode | ReactElement | HTMLElement
 }
-function SignOTP(props: ISignupProps) {
-  const { email, className } = props
+function OTPLinkVerfication(props: ISignupProps) {
+  const { className, title, subTitle } = props
   const {
     values,
     handleSubmit,
     isSubmitting,
-    errors,
-    handleChange,
+
     setFieldValue,
   } = useFormik({
     initialValues: {
@@ -66,14 +36,8 @@ function SignOTP(props: ISignupProps) {
   console.log({ values })
   return (
     <div className={className}>
-      <p>
-        <strong>An email has been sent to </strong> {email}
-      </p>
-      <p>
-        <strong>
-          Click on the Link to verify or Enter the OTP sent to you
-        </strong>
-      </p>
+      {title && <span>{title}</span>}
+      {subTitle && <span>{subTitle}</span>}
       {[...new Array(6)].fill(0).map((a, i) => {
         return (
           <input
@@ -90,10 +54,7 @@ function SignOTP(props: ISignupProps) {
     </div>
   )
 }
-export const SignUPOTP = styled(SignOTP)`
-  p {
-    margin: 15px 0;
-  }
+export const OTPLink = styled(OTPLinkVerfication)`
   input {
     width: 60px;
     height: 60px;
