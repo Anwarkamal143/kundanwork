@@ -29,6 +29,25 @@ export const SignupContainer = styled.div`
       }
     }
     .input_wrapper {
+      padding: 20px 0;
+      .email_holder {
+        padding: 10px 0;
+        padding-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .email_icon_wrapper {
+          display: flex;
+          align-items: center;
+          svg {
+            margin-right: 10px;
+          }
+        }
+        .edit_button {
+          cursor: pointer;
+        }
+      }
+
       .signup_email {
         padding: 30px 0;
       }

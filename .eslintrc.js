@@ -41,6 +41,8 @@ module.exports = {
     "import/no-anonymous-default-export": "off",
     "@typescript-eslint/ban-types": "off",
     "react/display-name": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
     "simple-import-sort/imports": "error",
     "import/no-duplicates": "error",
     "jsx-a11y/anchor-is-valid": [

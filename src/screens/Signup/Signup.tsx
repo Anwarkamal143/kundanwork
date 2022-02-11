@@ -38,17 +38,23 @@ type ISignupProps = {
 export function Signup(props: ISignupProps) {
   const [isEmailSet, setIsEmailSet] = useState(false)
   const [mailsent, setMailsent] = useState(false)
-  const { values, handleSubmit, isSubmitting, errors, handleChange } =
-    useFormik({
-      initialValues: {
-        email: "",
-        password: "",
-        confirmpassword: "",
-      },
-      onSubmit: values => {
-        setMailsent(true)
-      },
-    })
+  const {
+    values,
+    handleSubmit,
+    setFieldValue,
+    isSubmitting,
+    errors,
+    handleChange,
+  } = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      confirmpassword: "",
+    },
+    onSubmit: values => {
+      setMailsent(true)
+    },
+  })
 
   const handleEmailOtp = () => {
     if ((values.email || "").trim()) {
@@ -82,12 +88,22 @@ export function Signup(props: ISignupProps) {
               </div>
               <div className="input_wrapper">
                 {isEmailSet && (
-                  <p>
-                    <span>
+                  <p className="email_holder">
+                    <span className="email_icon_wrapper">
                       <EnvelopIcon />
                       {values.email}
                     </span>
-                    <Edit />
+                    <span
+                      className="edit_button"
+                      onClick={e => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                        setIsEmailSet(false)
+                        setFieldValue("password", "")
+                        setFieldValue("confirmpassword", "")
+                      }}>
+                      <Edit />
+                    </span>
                   </p>
                 )}
                 <strong className="signup_email">
