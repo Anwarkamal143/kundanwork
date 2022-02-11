@@ -46,7 +46,7 @@ module.exports = {
     "simple-import-sort/imports": "error",
     "import/no-duplicates": "error",
     "jsx-a11y/anchor-is-valid": [
-      "error",
+      "off",
       {
         components: ["Link"],
         specialLink: ["hrefLeft", "hrefRight"],

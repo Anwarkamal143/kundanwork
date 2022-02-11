@@ -12,8 +12,10 @@ import { AuthLayout } from "@Layouts"
 import { AuthServices } from "@Utils/enums"
 import { useFormik } from "formik"
 import Link from "next/link"
+import { useRouter } from "next/router"
 import { signIn } from "next-auth/react"
 import { useState } from "react"
+import * as yup from "yup"
 
 import { SignupContainer } from "./signup.styled"
 import { SignUPOTP } from "./SignupOTP"
@@ -32,12 +34,26 @@ const getIcon = (title: string) => {
       break
   }
 }
+const validationSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Enter valid email address")
+    .required("Enter valid email address"),
+  password: yup.string().required("Password is required"),
+  confirmpassword: yup
+    .string()
+    .required()
+    .oneOf([yup.ref("password"), null], "Passwords must match"),
+})
 type ISignupProps = {
   providers: Record<string, any>
 }
 export function Signup(props: ISignupProps) {
   const [isEmailSet, setIsEmailSet] = useState(false)
   const [mailsent, setMailsent] = useState(false)
+
+  const router = useRouter()
+
   const {
     values,
     handleSubmit,
@@ -45,12 +61,14 @@ export function Signup(props: ISignupProps) {
     isSubmitting,
     errors,
     handleChange,
+    handleBlur,
   } = useFormik({
     initialValues: {
       email: "",
       password: "",
       confirmpassword: "",
     },
+    validationSchema,
     onSubmit: values => {
       setMailsent(true)
     },
@@ -62,14 +80,13 @@ export function Signup(props: ISignupProps) {
     }
     return null
   }
+
   return (
     <AuthLayout>
       <SignupContainer className="providers-section">
         <div className="top_navigation">
-          <Link href="/signin">
-            <a>Already a member?</a>
-          </Link>
-          <Button>LOGIN</Button>
+          Already a member?
+          <Button onClick={() => router.push("/auth/signin")}>LOGIN</Button>
         </div>
 
         <div className="section_wrapper">
@@ -123,6 +140,7 @@ export function Signup(props: ISignupProps) {
                     onChange={handleChange}
                     // materialDesign
                     value={values.email}
+                    onBlur={handleBlur}
                   />
                 ) : (
                   <>
@@ -137,7 +155,6 @@ export function Signup(props: ISignupProps) {
                       id="password"
                       name="password"
                       onChange={handleChange}
-                      // materialDesign
                       value={values.password}
                     />
                     <Input
@@ -146,9 +163,9 @@ export function Signup(props: ISignupProps) {
                       className="confirmpassword-input"
                       id="confirmpassword"
                       name="confirmpassword"
-                      // materialDesign
                       onChange={handleChange}
                       value={values.confirmpassword}
+                      onBlur={handleBlur}
                     />
                   </>
                 )}

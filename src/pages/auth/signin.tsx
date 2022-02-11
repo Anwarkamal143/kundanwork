@@ -1,3 +1,4 @@
+import { SignIn } from "@Screens"
 import { GetServerSideProps } from "next"
 import type { Session } from "next-auth"
 import { getSession, useSession } from "next-auth/react"
@@ -14,14 +15,14 @@ export default function Page({ providers }: { providers: any }) {
   console.log("Custom Signin page was called.", providers, session)
   return (
     <>
-      <div>Custom Signin Page</div>
-      {Object.values(providers || {}).map((provider: any) => (
+      <SignIn providers={providers} />
+      {/* {Object.values(providers || {}).map((provider: any) => (
         <div key={provider.name}>
           <button onClick={() => signIn(provider.id)}>
             Sign in with {provider.name}
           </button>
         </div>
-      ))}
+      ))} */}
     </>
   )
 }
