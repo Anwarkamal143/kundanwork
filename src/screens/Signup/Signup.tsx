@@ -98,7 +98,8 @@ export function Signup(props: ISignupProps) {
                   <div
                     className="icon"
                     key={provider}
-                    onClick={() => signIn(provider)}>
+                    onClick={() => signIn(provider)}
+                  >
                     {getIcon(provider)}
                   </div>
                 ))}
@@ -118,7 +119,8 @@ export function Signup(props: ISignupProps) {
                         setIsEmailSet(false)
                         setFieldValue("password", "")
                         setFieldValue("confirmpassword", "")
-                      }}>
+                      }}
+                    >
                       <Edit />
                     </span>
                   </p>
@@ -171,9 +173,8 @@ export function Signup(props: ISignupProps) {
                 )}
               </div>
               <Button
-                onClick={() =>
-                  isEmailSet ? handleSubmit() : handleEmailOtp()
-                }>
+                onClick={() => (isEmailSet ? handleSubmit() : handleEmailOtp())}
+              >
                 Next
               </Button>
             </div>

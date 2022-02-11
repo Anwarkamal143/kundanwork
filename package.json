@@ -15,7 +15,7 @@
     "start": "next start",
     "types": "tsc --noEmit",
     "lint": "eslint src",
-    "pretty": "prettier  --write --config .prettierrc.json  src",
+    "pretty": "prettier  --write --config .prettierrc  src",
     "lint:fix": "npm run lint --fix",
     "precommit": "npm run lint && npm run pretty",
     "prepare": "husky install"

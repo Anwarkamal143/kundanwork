@@ -5,6 +5,5 @@
   "singleQuote": false,
   "printWidth": 80,
   "overrides": [{ "files": ["*.json"], "options": { "tabWidth": 2 } }],
-  "arrowParens": "avoid",
-  "jsxBracketSameLine": true
+  "arrowParens": "avoid"
 }

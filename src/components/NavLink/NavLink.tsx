@@ -99,7 +99,8 @@ const NavLink: FC<INavLinkPorps> = (props: INavLinkPorps) => {
           }}
           className={`${
             isActive ? activeClassName : inActiveClassName
-          } ${className}`}>
+          } ${className}`}
+        >
           {children}
         </a>
       </Link>

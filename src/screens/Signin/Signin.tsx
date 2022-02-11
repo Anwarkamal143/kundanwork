@@ -92,7 +92,8 @@ export function SignIn(props: ISignupProps) {
                 <div
                   className="icon"
                   key={provider}
-                  onClick={() => signIn(provider)}>
+                  onClick={() => signIn(provider)}
+                >
                   {getIcon(provider)}
                 </div>
               ))}
@@ -111,7 +112,8 @@ export function SignIn(props: ISignupProps) {
                       e.stopPropagation()
                       setIsEmailSet(false)
                       setFieldValue("password", "")
-                    }}>
+                    }}
+                  >
                     <Edit />
                   </span>
                 </p>
@@ -159,7 +161,8 @@ export function SignIn(props: ISignupProps) {
               )}
             </div>
             <Button
-              onClick={() => (isEmailSet ? handleSubmit() : handleEmail())}>
+              onClick={() => (isEmailSet ? handleSubmit() : handleEmail())}
+            >
               Next
             </Button>
           </div>
