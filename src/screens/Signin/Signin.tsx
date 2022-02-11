@@ -18,6 +18,8 @@ import { useState } from "react"
 import * as yup from "yup"
 
 import { SignupContainer } from "./signin.styled"
+import { OTPLink } from "../OTP"
+import { ResetPassword } from "../ResetPassword"
 
 const getIcon = (title: string) => {
   switch (title) {
@@ -47,6 +49,8 @@ type ISignupProps = {
 export function SignIn(props: ISignupProps) {
   const [isEmailSet, setIsEmailSet] = useState(false)
   const [mailsent, setMailsent] = useState(false)
+  const [isResetPassword, setIsResetPassword] = useState(false)
+  const [isOTPenabled, setIsOTPenabled] = useState(false)
 
   const router = useRouter()
 
@@ -65,6 +69,9 @@ export function SignIn(props: ISignupProps) {
     },
     validationSchema: validationSchema,
     onSubmit: values => {
+      if (values.password !== "admin") {
+        // setIsResetPassword(true);
+      }
       setMailsent(true)
     },
   })
@@ -75,6 +82,84 @@ export function SignIn(props: ISignupProps) {
     }
     return null
   }
+
+  const getComponnets = () => {
+    if (!isEmailSet) {
+      return (
+        <>
+          <strong className="signup_email">Or Sign up with Email</strong>
+          <Input
+            hasRightIcon
+            rightIcon={{ icon: EnvelopIcon }}
+            type="email"
+            placeholder="Email"
+            // className="email-input"
+            id="Email"
+            name="email"
+            onChange={handleChange}
+            // materialDesign
+            value={values.email}
+            onBlur={handleBlur}
+          />
+          <Button onClick={handleEmail}>Next</Button>
+        </>
+      )
+    }
+    if (isOTPenabled) {
+      return (
+        <OTPLink
+          title={
+            <p>
+              Click on the Link sent to email@gmail.com to verify ownership of
+              your account or Enter the OTP sent to you
+            </p>
+          }
+          onSubmit={isSubmitted => {
+            setTimeout(() => {
+              setIsOTPenabled(false)
+              setIsResetPassword(true)
+            }, 2000)
+          }}
+        />
+      )
+    }
+
+    if (!isResetPassword) {
+      return (
+        <>
+          <strong className="signup_email">Enter a Valid Password</strong>
+          <Input
+            hasRightIcon
+            rightIcon={{
+              icon: Eye,
+            }}
+            type="password"
+            placeholder="Password"
+            className="password-input"
+            id="password"
+            name="password"
+            onChange={handleChange}
+            // materialDesign
+            value={values.password}
+            onBlur={handleBlur}
+          />
+          <div>
+            <p onClick={() => setIsOTPenabled(true)}>Forgot password</p>
+            <Button onClick={handleSubmit}>Next</Button>
+          </div>
+        </>
+      )
+    }
+
+    return (
+      <ResetPassword
+        title="Create new password"
+        onSubmit={isSubmitted => {
+          setIsResetPassword(true)
+        }}
+      />
+    )
+  }
   return (
     <AuthLayout>
       <SignupContainer className="providers-section">
@@ -84,20 +169,24 @@ export function SignIn(props: ISignupProps) {
         </div>
 
         <div className="section_wrapper">
-          <h1 className="heading">login</h1>
+          <h1 className="heading">
+            {isResetPassword ? "reset password" : "login"}
+          </h1>
 
           <div>
-            <div className="providers">
-              {Object.values(AuthServices).map((provider: any) => (
-                <div
-                  className="icon"
-                  key={provider}
-                  onClick={() => signIn(provider)}
-                >
-                  {getIcon(provider)}
-                </div>
-              ))}
-            </div>
+            {!isEmailSet && (
+              <div className="providers">
+                {Object.values(AuthServices).map((provider: any) => (
+                  <div
+                    className="icon"
+                    key={provider}
+                    onClick={() => signIn(provider)}
+                  >
+                    {getIcon(provider)}
+                  </div>
+                ))}
+              </div>
+            )}
             <div className="input_wrapper">
               {isEmailSet && (
                 <p className="email_holder">
@@ -111,6 +200,8 @@ export function SignIn(props: ISignupProps) {
                       e.preventDefault()
                       e.stopPropagation()
                       setIsEmailSet(false)
+                      setIsResetPassword(false)
+                      setIsOTPenabled(false)
                       setFieldValue("password", "")
                     }}
                   >
@@ -118,53 +209,16 @@ export function SignIn(props: ISignupProps) {
                   </span>
                 </p>
               )}
-              <strong className="signup_email">
-                {isEmailSet
-                  ? "Enter a Valid Password"
-                  : "Or Sign up with Email"}
-              </strong>
-              {!isEmailSet ? (
-                <Input
-                  hasRightIcon
-                  rightIcon={{ icon: EnvelopIcon }}
-                  type="email"
-                  placeholder="Email"
-                  // className="email-input"
-                  id="Email"
-                  name="email"
-                  onChange={handleChange}
-                  // materialDesign
-                  value={values.email}
-                  onBlur={handleBlur}
-                />
-              ) : (
-                <>
-                  <Input
-                    hasRightIcon
-                    rightIcon={{
-                      icon: Eye,
-                    }}
-                    type="password"
-                    placeholder="Password"
-                    className="password-input"
-                    id="password"
-                    name="password"
-                    onChange={handleChange}
-                    // materialDesign
-                    value={values.password}
-                    onBlur={handleBlur}
-                  />
-                  <Link href={"/forgot-password"}>
-                    <a>Forgot password</a>
-                  </Link>
-                </>
-              )}
+
+              <div>
+                {/* <strong className="signup_email">
+                  {isEmailSet
+                    ? "Enter a Valid Password"
+                    : "Or Sign up with Email"}
+                </strong> */}
+                {getComponnets()}
+              </div>
             </div>
-            <Button
-              onClick={() => (isEmailSet ? handleSubmit() : handleEmail())}
-            >
-              Next
-            </Button>
           </div>
         </div>
         {/* {Object.values(providers).map((provider: any) => (

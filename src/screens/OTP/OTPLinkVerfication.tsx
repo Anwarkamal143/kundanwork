@@ -7,9 +7,10 @@ type ISignupProps = {
   className?: string
   title?: ReactChild | ReactChildren | ReactNode | ReactElement | HTMLElement
   subTitle?: ReactChild | ReactChildren | ReactNode | ReactElement | HTMLElement
+  onSubmit?: (...args: any[]) => void
 }
 function OTPLinkVerfication(props: ISignupProps) {
-  const { className, title, subTitle } = props
+  const { className, title, subTitle, onSubmit } = props
   const {
     values,
     handleSubmit,
@@ -20,7 +21,9 @@ function OTPLinkVerfication(props: ISignupProps) {
     initialValues: {
       opts: {},
     },
-    onSubmit: values => {},
+    onSubmit: values => {
+      onSubmit?.(true)
+    },
   })
   const handleInputChange = (value: string, index: number) => {
     const { opts } = values

@@ -1,12 +1,8 @@
 import { SignIn } from "@Screens"
 import { GetServerSideProps } from "next"
 import type { Session } from "next-auth"
-import { getSession, useSession } from "next-auth/react"
-// eslint-disable-next-line
-import { getProviders, signIn } from "next-auth/react"
-import { useEffect, useState } from "react"
+import { getProviders, getSession, signIn, useSession } from "next-auth/react"
 
-import Layout from "../../components/layout"
 // import {   } from "next-auth/client/_utils"
 export default function Page({ providers }: { providers: any }) {
   const { data: session, status } = useSession()
